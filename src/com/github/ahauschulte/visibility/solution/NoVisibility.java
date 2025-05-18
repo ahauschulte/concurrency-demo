@@ -1,46 +1,43 @@
-package visibility.problem;
+package com.github.ahauschulte.visibility.solution;
 
-public class ImproperVisibility2 {
+public class NoVisibility {
 
     static class Worker {
-        private boolean stop = false;
+        volatile boolean stop = false;
 
-        private int someState = 0;
+        int someState = 0;
 
-        private Thread thread;
+        Thread thread;
 
-        public Worker() {
+        Worker() {
             thread = new Thread(() -> {
                 while (!stop) {
                     someState++;
-
-                    // DO NOT DO THIS IN PRODUCTION CODE!!!
-                    if (someState % 100_000 == 0) {
-                        Thread.yield();
-                    }
                 }
             });
         }
 
-        public void doSomeWorkInParallel() {
+        void doSomeWorkInParallel() {
             thread.start();
         }
 
-        public void stopMe() {
+        void stopMe() {
             stop = true;
         }
 
-        public void waitForStop() {
+        void waitForStop() {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
     }
 
     public static void main(String[] args) throws InterruptedException {
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 1; i <= 10; ++i) {
+            System.out.println("Iteration #" + i);
+            
             Worker worker = new Worker();
 
             worker.doSomeWorkInParallel();
@@ -50,7 +47,7 @@ public class ImproperVisibility2 {
             worker.stopMe();
             worker.waitForStop();
 
-            System.out.print(".");
+            System.out.println("Iteration done.");
         }
 
     }

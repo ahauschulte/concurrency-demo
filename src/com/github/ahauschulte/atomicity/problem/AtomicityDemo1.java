@@ -1,25 +1,26 @@
-package datarace.solutions;
+package com.github.ahauschulte.atomicity.problem;
 
-public class ParallelCounter1 {
+public class AtomicityDemo1 {
 
     static class Counter {
         private int i;
 
-        public Counter(int initialValue) {
+        Counter(int initialValue) {
             i = initialValue;
         }
 
-        public synchronized void increment() {
+        void increment() {
             ++i;
         }
 
-        public synchronized int getCounterValue() {
+        int getCounterValue() {
             return i;
         }
     }
 
     public static void main(String[] args) throws InterruptedException {
         Counter counter = new Counter(0);
+
         Runnable r = () -> {
             for (int i = 0; i < 10_000; ++i) {
                 counter.increment();

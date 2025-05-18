@@ -1,22 +1,20 @@
-package datarace.solutions;
+package com.github.ahauschulte.atomicity.problem;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-public class ParallelCounter2 {
+public class AtomicityDemo2 {
 
     static class Counter {
-        private final AtomicInteger i;
+        private volatile int i; // Volatile doesn't help here
 
-        public Counter(int initialValue) {
-            i = new AtomicInteger(initialValue);
+        Counter(int initialValue) {
+            i = initialValue;
         }
 
-        public void increment() {
-            i.incrementAndGet();
+        void increment() {
+            ++i;
         }
 
-        public int getCounterValue() {
-            return i.get();
+        int getCounterValue() {
+            return i;
         }
     }
 
