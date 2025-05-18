@@ -1,9 +1,9 @@
-package com.github.ahauschulte.visibility.solution;
+package com.github.ahauschulte.visibility.problem;
 
-public class NoVisibility {
+public class VisibilityDemo {
 
     static class Worker {
-        volatile boolean stop = false;
+        boolean stop = false;
 
         int someState = 0;
 
